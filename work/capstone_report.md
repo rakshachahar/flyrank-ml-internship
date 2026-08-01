@@ -1,10 +1,10 @@
-# Capstone Report — <your lane>
+# Machine Learning-Based Prioritization of Website Content Refresh Using Search Performance Signals
 
 - **Author:** Raksha Chahar
 - **Lane:** Google Search Ranking & Discoverability
 - **Repo:** https://github.com/rakshachahar/flyrank-ml-internship
 - **Date:** August 2026
-- 
+
 ## 0. Abstract
 
 This project investigates how machine learning can prioritize website pages for content refresh using observable search-performance signals. The analysis uses the FlyRank ML Internship warehouse dataset containing anonymized historical search-performance information. A Random Forest classifier was compared against a simple baseline using the same validation strategy to evaluate decision-support performance. The results showed that combining multiple search-performance features provides stronger prioritization than the baseline while maintaining honest validation and leakage awareness. The output is intended to support content teams in identifying pages for review rather than making fully automated publishing decisions.
