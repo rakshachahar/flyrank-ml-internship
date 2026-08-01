@@ -1,1 +1,1 @@
-PASTE-YOUR-DEPLOYED-PAPER-URL-HERE
+https://rakshachahar.github.io/flyrank-ml-internship/
