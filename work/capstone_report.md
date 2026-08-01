@@ -1,78 +1,71 @@
 # Capstone Report — <your lane>
 
-- **Author:**
-- **Lane:**
-- **Repo:**
-- **Date:**
-
-> Copy this file to `work/capstone_report.md` and fill it in as you build. Sections 1–8
-> mirror the Pass / Needs-Work rubric axes, so nothing here is optional. Sections 0 and 9
-> are **paper sections**: your deployed research paper must carry both, and they're here so
-> you never rebuild them from memory at ship time.
-
+- **Author:** Raksha Chahar
+- **Lane:** Google Search Ranking & Discoverability
+- **Repo:** https://github.com/rakshachahar/flyrank-ml-internship
+- **Date:** August 2026
+- 
 ## 0. Abstract
 
-Five sentences, written last, placed first: question → data → method → headline result →
-what the output is for. This is the top of your deployed paper.
+This project investigates how machine learning can prioritize website pages for content refresh using observable search-performance signals. The analysis uses the FlyRank ML Internship warehouse dataset containing anonymized historical search-performance information. A Random Forest classifier was compared against a simple baseline using the same validation strategy to evaluate decision-support performance. The results showed that combining multiple search-performance features provides stronger prioritization than the baseline while maintaining honest validation and leakage awareness. The output is intended to support content teams in identifying pages for review rather than making fully automated publishing decisions.
 
 ## 1. Problem framing
 
-What decision does this support? Name the unit of analysis (page, client, day…), the output
-(score, rank, cluster, report), the action a human takes from it, and the cost of a wrong
-call. Why does data/ML help here at all?
+The project supports the decision of which website pages should be reviewed first for content updates. The unit of analysis is one website content page represented by its historical search-performance signals. The output is a ranked recommendation list that helps content teams prioritize review efforts. A wrong recommendation may result in unnecessary work or missed opportunities to improve content visibility. Machine learning helps by combining several observable search-performance signals instead of relying on a single fixed rule.
 
 ## 2. Data safety
 
-Which data you used and which columns you deliberately excluded (and why). Leakage risks you
-considered — especially label-derived fields (`trend_direction`, `trend_pct`) and pseudonymous
-IDs (grouping only, never features). Confirm nothing client-identifying appears anywhere in
-`work/`.
+The analysis uses the FlyRank ML Internship warehouse dataset hosted on Hugging Face. The primary tables include the anonymized daily content performance table and supporting warehouse metadata. Features such as impressions, clicks, average search position, and click-through rate were used for analysis.
+
+The following information was deliberately excluded:
+- Client names and identifiers used as predictive features
+- Website URLs
+- Search queries
+- Label-derived fields that could introduce data leakage
+- Any client-identifying or sensitive information
+
+Pseudonymous IDs were used only for grouping and joining records, never as predictive features. No client-identifying information appears anywhere in the work directory or final report.
 
 ## 3. Baseline
 
-The transparent rule or score you built first. Why it's a fair comparison, and its numbers on
-the same data and metric as your model.
+The baseline consisted of a transparent rule-based approach using observable search-performance signals to prioritize pages for review. Pages with lower impressions or lower click-through rates were ranked higher for content refresh.
+
+This baseline provides a fair comparison because it uses the same available information and evaluation split as the machine learning model while remaining simple and interpretable. Model performance was compared against this baseline using identical evaluation conditions.
 
 ## 4. Model / analysis
 
-Your method and why it fits the lane. The exact feature list (and what you left out on
-purpose). The target or proxy definition, in one sentence.
+A Random Forest classifier was selected because it can capture relationships between multiple search-performance signals without requiring complex feature engineering. The model used impressions, clicks, average search position, and click-through rate as predictive features.
+
+The target variable represented whether a page should be prioritized for review based on historical search-performance observations. Label-derived variables and future information were intentionally excluded to reduce leakage risk.
 
 ## 5. Evaluation
 
-Your split (grouped by client? time-aware?) and why. Metrics, model vs baseline **on the same
-split**. What the errors look like — a short error analysis beats a big metric table.
+The model was evaluated using the same train-test split as the baseline to ensure a fair comparison. Model accuracy was compared directly with the baseline accuracy using identical data partitions.
+
+The Random Forest model demonstrated stronger performance than the baseline while remaining interpretable for decision-support purposes. Error analysis indicated that pages with borderline search-performance signals were more likely to be misclassified, highlighting the importance of human review before acting on recommendations.
 
 ## 6. Interpretation
 
-What the model/clusters actually found. Feature importances or cluster profiles in plain
-words. Surprises and negative results — a well-understood "no effect" is a valid result.
+The model identified combinations of impressions, clicks, average search position, and click-through rate as useful indicators for prioritizing content review. Rather than relying on a single metric, the model combined multiple observable signals to generate recommendations.
+
+The analysis did not establish causal relationships or guarantee future search rankings. Negative or uncertain cases were treated as opportunities for further human investigation rather than automatic action.
 
 ## 7. Recommendation
 
-The ranked actions or decisions your output supports, and how a FlyRank editor would use them
-tomorrow. State your confidence and the limits explicitly.
+The resulting action playbook recommends prioritizing pages with declining visibility for content refresh, improving click-through rate through title and meta description optimization, and monitoring stable pages without unnecessary intervention.
+
+These recommendations are intended as decision-support for content teams. Confidence should always be interpreted alongside expert human judgment, and recommendations should not be executed automatically without review.
 
 ## 8. Reproducibility
 
-The exact commands to re-run everything from a fresh clone, your random seeds, and your
-environment (`pip freeze` highlights or `requirements.txt` deltas). If you claim a sealed or
-holdout evaluation, two things must be committed: the cell/script that builds the sealed
-frame, and the metrics file it produced — "evaluated once, blind" should be checkable from
-your repo, not taken on faith.
+All experiments were conducted using the notebooks included in this repository. Random seeds were fixed where applicable to improve reproducibility. The project uses Python, DuckDB, pandas, and scikit-learn within Google Colab.
+
+A fresh clone of the repository together with the FlyRank dataset access instructions is sufficient to reproduce the workflow. Metrics and exported artifacts generated during the analysis are included where appropriate to support reproducibility.
 
 ## 9. Acknowledgments & data credit
 
-One short section at the bottom of the deployed paper: "Built on the FlyRank ML Internship
-dataset" **linking to https://flyrank.ai**. Crediting your data source is standard research
-practice — and it's on the capstone's required-section list, so a paper without it isn't done.
+This project was built on the FlyRank ML Internship dataset.
 
----
+Data credit: https://flyrank.ai
 
-> **Claims checklist before submitting:** observed / measured / directional / decision-support
-> **Metrics vs. base rate:** report your task's base rate (majority-class %) next to any
-> precision@K or accuracy — a high score can just be a high base rate. AUC / lift over
-> baseline are the honest discrimination numbers.
-> language everywhere · no causal claims without an experiment or causal design · no
-> "predicted Google's algorithm" · no client-identifying details · numbers in this report
-> match a fresh re-run.
+The FlyRank ML Internship program provided the anonymized search-performance dataset used for educational and research purposes. All analysis follows the public-safe data usage guidelines provided by the internship.
